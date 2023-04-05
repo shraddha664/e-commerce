@@ -1,0 +1,17 @@
+spring:
+  jpa:
+    database: POSTGRESQL
+    hibernate:
+      ddl-auto: update
+      show-sql: true
+      format-sql: true
+  datasource:
+    platform: org.hibernate.dialect.PostgresSQLDialect
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/user
+    username: admin
+    password: admin
+
+server:
+  port: 8081
+
