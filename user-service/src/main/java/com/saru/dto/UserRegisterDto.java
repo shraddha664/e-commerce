@@ -1,9 +1,6 @@
 package com.saru.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,23 +8,23 @@ import lombok.Setter;
 @Setter
 public class UserRegisterDto {
 
-    @NotBlank(message = "User name is mandatory")
-    @Size(min = 2,max = 50,message = "Should contain at least 2 characters")
+    @NotNull(message = "User name should not be null")
+    @Size(min = 2,max = 50,message = "User name should be at least 2 characters")
     @Pattern(regexp = "^[a-zA-Z0-9]*$",message = "Invalid format for user name")
     private String userName;
 
-    @NotBlank(message = "Password is mandatory")
+    @NotNull(message = "password should not be null")
     @Size(min = 8,max = 16,message ="Password should be 8 to 16 characters")
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@#$%^&+=])(?!.*\\s).{8,}$",message = "Invalid format for password")
     private String password;
 
-    @NotBlank(message = "First name is mandatory")
-    @Size(min = 2,max = 50,message = "Should contain at least 2 characters")
+    @NotNull(message = "First name should not be null")
+    @Size(min = 2,max = 50,message = "First name should contain at least 2 characters")
     @Pattern(regexp = "^[a-zA-Z]*$",message = "Invalid format for first name")
     private String firstName;
 
-    @NotBlank(message = "Last name is mandatory")
-    @Size(min = 2,max = 50,message = "Should contain at least 2 characters")
+    @NotNull(message = "Last name should not be null")
+    @Size(min = 2,max = 50,message = "Last name should contain at least 2 characters")
     @Pattern(regexp = "^[a-zA-Z]*$",message = "Invalid format for last name")
     private String lastName;
 

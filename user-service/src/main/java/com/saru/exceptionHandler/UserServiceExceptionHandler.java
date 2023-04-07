@@ -1,6 +1,7 @@
 package com.saru.exceptionHandler;
 
 import com.saru.error.ErrorResponse;
+import com.saru.error.UserServiceException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,5 +30,15 @@ public class UserServiceExceptionHandler {
                 .message("Validation Failed")
                 .details(exception.getBindingResult().getFieldErrors().stream()
                         .map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining(","))).build());
+    }
+
+    @ExceptionHandler(UserServiceException.class)
+    public ResponseEntity<ErrorResponse> serviceExceptionHandler(UserServiceException exception){
+        return ResponseEntity.status(400).body(ErrorResponse.builder()
+                .timestamp(new Date(System.currentTimeMillis()))
+                .httpStatus(HttpStatus.BAD_REQUEST)
+                .message("Invalid id")
+                .details(exception.getMessage()).build()
+        );
     }
 }

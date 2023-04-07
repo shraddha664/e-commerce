@@ -1,7 +1,7 @@
-//package com.saru.error;
-//
-//public class UserServiceException extends RuntimeException {
-//    public UserServiceException(String message) {
-//        super(message);
-//    }
-//}
+package com.saru.error;
+
+public class UserServiceException extends RuntimeException {
+    public UserServiceException(String message) {
+        super(message);
+    }
+}
