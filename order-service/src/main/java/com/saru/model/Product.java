@@ -23,10 +23,14 @@ public class Product {
     @Column(name = "product_desc",nullable = false)
     private String description;
 
-    @OneToOne(mappedBy = "product",cascade = CascadeType.REMOVE,orphanRemoval = true,optional = false)
-    private Inventory inventory;
-
     @Column(name = "quantity_added",nullable = false)
     private Integer quantity;
+
+    @ManyToOne
+    @JoinColumn(name = "cart_id", unique = true)
+    private Cart cart;
+
+    @Column(name = "skuCode",nullable = false,unique = true)
+    private String skuCode;
 
 }
