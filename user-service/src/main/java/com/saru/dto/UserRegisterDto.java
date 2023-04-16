@@ -8,29 +8,29 @@ import lombok.Setter;
 @Setter
 public class UserRegisterDto {
 
-    @NotNull(message = "User name should not be null")
-    @Size(min = 2,max = 50,message = "User name should be at least 2 characters")
-    @Pattern(regexp = "^[a-zA-Z0-9]*$",message = "Invalid format for user name")
+//    @NotNull(message = "User name should not be null")
+//    @Size(min = 2,max = 50,message = "User name should be at least 2 characters")
+    @Pattern(regexp = "^[a-zA-Z0-9]{2,50}$",message = "User name should be at least 2 characters")
     private String userName;
 
-    @NotNull(message = "password should not be null")
-    @Size(min = 8,max = 16,message ="Password should be 8 to 16 characters")
-    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@#$%^&+=])(?!.*\\s).{8,}$",message = "Invalid format for password")
+//    @NotNull(message = "password should not be null")
+//    @Size(min = 8,max = 16,message ="Password should be 8 to 16 characters")
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@#$%^&+=])(?!.*\\s).{8,16}$",message = "Password should be 8 to 16 characters")
     private String password;
 
-    @NotNull(message = "First name should not be null")
-    @Size(min = 2,max = 50,message = "First name should contain at least 2 characters")
-    @Pattern(regexp = "^[a-zA-Z]*$",message = "Invalid format for first name")
+//    @NotNull(message = "First name should not be null")
+//    @Size(min = 2,max = 50,message = "First name should contain at least 2 characters")
+    @Pattern(regexp = "^[a-zA-Z]{2,50}$",message = "First name should contain at least 2 characters")
     private String firstName;
 
-    @NotNull(message = "Last name should not be null")
-    @Size(min = 2,max = 50,message = "Last name should contain at least 2 characters")
-    @Pattern(regexp = "^[a-zA-Z]*$",message = "Invalid format for last name")
+//    @NotNull(message = "Last name should not be null")
+//    @Size(min = 2,max = 50,message = "Last name should contain at least 2 characters")
+    @Pattern(regexp = "^[a-zA-Z]{2,50}$",message = "Last name should contain at least 2 characters")
     private String lastName;
 
-    @NotBlank(message = "Email is mandatory")
+//    @NotBlank(message = "Email is mandatory")
     @Email
-    @Pattern(regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",message = "Invalid format for email ")
+    @Pattern(regexp = "^[A-Za-z0-9._]+@gmail\\.com$",message = "Email is mandatory")
     private String email;
 
     @NotBlank(message = "Phone number is mandatory")

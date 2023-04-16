@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,6 +27,25 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional
     public void saveUser(UserRegisterDto userRegisterDto) {
+        Optional<List<User>> users=  userRepository.findByUserNameOrEmailOrPhoneNumber(userRegisterDto.getUserName(),userRegisterDto.getEmail(),userRegisterDto.getPhoneNumber());
+        if (users.isPresent()) {
+            List<User> existingUser = users.get();
+            String providedPhoneNumber= userRegisterDto.getPhoneNumber().replaceAll("[^0-9]", "");
+            log.info(String.format("provided phone number=%s",providedPhoneNumber));
+            boolean value= existingUser.stream().anyMatch(user->(user.getPhoneNumber()
+                    .replaceAll("[^0-9]", ""))
+                    .equals(providedPhoneNumber));
+            log.info(String.format("boolean value=%s",value));
+            if (existingUser.stream().anyMatch(user -> user.getUserName().equals(userRegisterDto.getUserName()))){
+                throw new UserServiceException("Username already taken. Try another one");
+            }else if (existingUser.stream().anyMatch(user -> user.getEmail().equals(userRegisterDto.getEmail()))) {
+                throw new UserServiceException("Email already taken. Try another one");
+            } else if (value) {
+                throw new UserServiceException("Phone number already taken. Try another one");
+            }
+        }
+
+//        todo: save the password by encrypting it
         userRepository.save( User.builder()
                 .userName(userRegisterDto.getUserName())
                 .password(userRegisterDto.getPassword())
@@ -89,22 +109,14 @@ public class UserServiceImpl implements UserService{
     public void updateUserDetails(Long userId, UserRegisterDto userRegisterDto) {
         log.info("inside updateUserDetails of service ");
         User user=userRepository.findById(userId).orElseThrow(()->new UserServiceException("No such user exist"));
-        if (userRegisterDto.getUserName()!=null){
-            user.setUserName(userRegisterDto.getUserName());
-        }
-        if (userRegisterDto.getPhoneNumber()!=null){
-            user.setPhoneNumber(userRegisterDto.getPhoneNumber());
-
-        }if (userRegisterDto.getFirstName()!=null){
-            user.setFirstName(userRegisterDto.getFirstName());
-
-        }
-        if (userRegisterDto.getEmail()!=null){
-            user.setEmail(userRegisterDto.getEmail());
-        }
-        if (userRegisterDto.getLastName()!=null){
-            user.setLastName(userRegisterDto.getLastName());
-        }
+        User.builder()
+                .userName(userRegisterDto.getUserName())
+                .email(userRegisterDto.getEmail())
+                .firstName(userRegisterDto.getFirstName())
+                .lastName(userRegisterDto.getLastName())
+                .phoneNumber(userRegisterDto.getPhoneNumber())
+                .password(userRegisterDto.getPassword())
+                .build();
 
         userRepository.save(user);
     }
@@ -112,20 +124,20 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional
     public String updateAddress(Long userId, Long addressId, AddressDto addressDto) {
-      if (addressRepository.updateAddress(userId,addressId,addressDto)>0){
-          return "Address updated successfully";
-      }else {
-          throw new UserServiceException("No such user or address found");
-      }
+        if (addressRepository.updateAddress(userId,addressId,addressDto)>0){
+            return "Address updated successfully";
+        }else {
+            throw new UserServiceException("No such user or address found");
+        }
     }
 
     @Override
     @Transactional
     public String deleteAddress(Long userId, Long addressId) {
-      if ( addressRepository.deleteAddressByIdAndUserId(userId,addressId)>0){
-          return "Address deleted successfully";
-      }else {
-          throw new UserServiceException("No such user or address found");
-      }
+        if ( addressRepository.deleteAddressByIdAndUserId(userId,addressId)>0){
+            return "Address deleted successfully";
+        }else {
+            throw new UserServiceException("No such user or address found");
+        }
     }
 }

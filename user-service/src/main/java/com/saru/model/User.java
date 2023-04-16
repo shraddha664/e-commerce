@@ -37,7 +37,9 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true,fetch = FetchType.LAZY)
     private List<Address> addresses = new ArrayList<>();
 
-    @Column(name = "phone_number",unique = false,nullable = true,length = 20)
+    @Column(name = "phone_number",unique = true,nullable = false,length = 20)
     private String phoneNumber;
+
+    private Boolean isEnabled;
 
 }

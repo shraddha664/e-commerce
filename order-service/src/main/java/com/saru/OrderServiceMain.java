@@ -5,14 +5,14 @@ import io.swagger.v3.oas.annotations.info.Info;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
 @OpenAPIDefinition(
         info = @Info(
-                title = "User Service",
+                title = "Product Service",
                 version = "1.0",
-                description = "Contains all the APIs of User Service"))
-public class UserServiceMain {
+                description = "Contains all the APIs for Product Service"))
+@SpringBootApplication
+public class OrderServiceMain {
     public static void main(String[] args) {
-        SpringApplication.run(UserServiceMain.class,args);
+        System.out.println(SpringApplication.run(OrderServiceMain.class,args));
     }
 }

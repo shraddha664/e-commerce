@@ -16,18 +16,18 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/api/v1/user")
+@RequestMapping("/api/v1/users")
 public class UserController {
     private final UserServiceImpl userService;
 
-    @Operation(summary = "Saves user")
+    @Operation(summary = "Register's user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",description="Successfully retrieved"),
             @ApiResponse(responseCode = "400",description = "Bad Request"),
             @ApiResponse(responseCode = "404",description = "Data not found")
     })
     @PostMapping("/register")
-    public ResponseEntity<String> saveUser(@RequestBody @Valid UserRegisterDto userRegisterDto){
+    public ResponseEntity<String> registerUser(@RequestBody @Valid UserRegisterDto userRegisterDto){
         userService.saveUser(userRegisterDto);
         return ResponseEntity.status(200).body("User saved successfully");
     }

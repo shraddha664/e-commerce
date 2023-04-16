@@ -37,7 +37,7 @@ public class UserServiceExceptionHandler {
         return ResponseEntity.status(400).body(ErrorResponse.builder()
                 .timestamp(new Date(System.currentTimeMillis()))
                 .httpStatus(HttpStatus.BAD_REQUEST)
-                .message("Invalid id")
+                .message("Invalid credentials")
                 .details(exception.getMessage()).build()
         );
     }
